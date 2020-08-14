@@ -158,3 +158,315 @@ Using native malloc.
 2020-08-14 14:45:29=>Debug=>get_xml_contents Start(http://localhost:80/Kannel/status.xml?password=pass)=>
 2020-08-14 14:45:29=>Debug=>get_xml_contents End=> file_get_contents output
 2020-08-14 14:45:29=>Debug=>initialize End=>true
+2020-08-14 14:58:12=>INFO=>all
+2020-08-14 14:58:12=>Debug=>initialize Start(localhost/Kannel,80,pass)=>
+2020-08-14 14:58:12=>Debug=>host=localhost/Kannel
+2020-08-14 14:58:12=>Debug=>host=localhost:80/Kannel
+2020-08-14 14:58:12=>Debug=>get_xml_contents Start(http://localhost:80/Kannel/status.xml?password=pass)=>
+2020-08-14 14:58:12=>Debug=>get_xml_contents End=> file_get_contents output
+2020-08-14 14:58:12=>Debug=>initialize End=>true
+2020-08-14 14:58:12=>Debug=>get_all Start
+2020-08-14 14:58:12=>INFO=>Array
+(
+    [version] => Kannel bearerbox version `1.4.4'.
+Compiler `7.2.0'.
+System Linux, release 4.4.0-17763-Microsoft, version #379-Microsoft Wed Mar 06 19:16:00 PST 2019, machine x86_64.
+Hostname EC2AMAZ-0A6RH1B.localdomain, IP 127.0.1.1.
+Libxml version 2.9.4.
+Using OpenSSL 1.0.2g  1 Mar 2016.
+Compiled with MySQL 5.7.20, using MySQL 5.7.28.
+Compiled with PostgreSQL 10.0.
+Using SQLite 3.20.1.
+Using hiredis API 0.13.3
+Using native malloc.
+
+    [status] => running, uptime 1d 0h 6m 7s
+    [wdp] => Array
+        (
+            [received] => Array
+                (
+                    [total] => 0
+                    [queued] => 0
+                )
+
+            [sent] => Array
+                (
+                    [total] => 0
+                    [queued] => 0
+                )
+
+        )
+
+    [sms] => Array
+        (
+            [received] => Array
+                (
+                    [total] => 269
+                    [queued] => 69
+                )
+
+            [sent] => Array
+                (
+                    [total] => 26790
+                    [queued] => 0
+                )
+
+            [storesize] => 74
+            [inbound] => 0.01,0.01,0.00
+            [outbound] => 0.51,0.44,0.31
+        )
+
+    [dlr] => Array
+        (
+            [received] => Array
+                (
+                    [total] => 1115146
+                )
+
+            [sent] => Array
+                (
+                    [total] => 0
+                )
+
+            [inbound] => 21.74,19.41,12.85
+            [outbound] => 0.00,0.00,0.00
+            [queued] => 13966
+            [storage] => spool
+        )
+
+    [boxes] => Array
+        (
+            [box] => Array
+                (
+                    [type] => smsbox
+                    [id] => mainSmsBox
+                    [IP] => 127.0.0.1
+                    [queue] => 0
+                    [status] => on-line 1d 0h 5m 55s
+                    [ssl] => no
+                )
+
+        )
+
+    [smscs] => Array
+        (
+            [count] => 2
+            [smsc] => Array
+                (
+                    [0] => Array
+                        (
+                            [name] => SMPP:10.1.1.1:33799/33799:ops:default
+                            [admin-id] => Content_SMPP
+                            [id] => Content_SMPP
+                            [status] => online 86759s
+                            [failed] => 0
+                            [queued] => 0
+                            [sms] => Array
+                                (
+                                    [received] => 269
+                                    [sent] => 1892
+                                    [inbound] => 0.01,0.01,0.00
+                                    [outbound] => 0.06,0.04,0.02
+                                )
+
+                            [dlr] => Array
+                                (
+                                    [received] => 3781
+                                    [sent] => 0
+                                    [inbound] => 0.12,0.07,0.04
+                                    [outbound] => 0.00,0.00,0.00
+                                )
+
+                        )
+
+                    [1] => Array
+                        (
+                            [name] => SMPP:10.10.10.10:15016/15016:ops:default
+                            [admin-id] => Charge_SMPP
+                            [id] => Op_Charge_SMPP
+                            [status] => online 86759s
+                            [failed] => 1061752
+                            [queued] => 0
+                            [sms] => Array
+                                (
+                                    [received] => 0
+                                    [sent] => 24898
+                                    [inbound] => 0.00,0.00,0.00
+                                    [outbound] => 0.45,0.40,0.29
+                                )
+
+                            [dlr] => Array
+                                (
+                                    [received] => 1111365
+                                    [sent] => 0
+                                    [inbound] => 21.64,19.44,12.81
+                                    [outbound] => 0.00,0.00,0.00
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+2020-08-14 14:58:40=>INFO=>all
+2020-08-14 14:58:40=>Debug=>initialize Start(localhost/Kannel,80,pass)=>
+2020-08-14 14:58:40=>Debug=>host=localhost/Kannel
+2020-08-14 14:58:40=>Debug=>host=localhost:80/Kannel
+2020-08-14 14:58:40=>Debug=>get_xml_contents Start(http://localhost:80/Kannel/status.xml?password=pass)=>
+2020-08-14 14:58:40=>Debug=>get_xml_contents End=> file_get_contents output
+2020-08-14 14:58:40=>Debug=>initialize End=>true
+2020-08-14 14:58:40=>Debug=>get_all Start
+2020-08-14 14:58:40=>INFO=>Array
+(
+    [version] => Kannel bearerbox version `1.4.4'.
+Compiler `7.2.0'.
+System Linux, release 4.4.0-17763-Microsoft, version #379-Microsoft Wed Mar 06 19:16:00 PST 2019, machine x86_64.
+Hostname EC2AMAZ-0A6RH1B.localdomain, IP 127.0.1.1.
+Libxml version 2.9.4.
+Using OpenSSL 1.0.2g  1 Mar 2016.
+Compiled with MySQL 5.7.20, using MySQL 5.7.28.
+Compiled with PostgreSQL 10.0.
+Using SQLite 3.20.1.
+Using hiredis API 0.13.3
+Using native malloc.
+
+    [status] => running, uptime 1d 0h 6m 7s
+    [wdp] => Array
+        (
+            [received] => Array
+                (
+                    [total] => 0
+                    [queued] => 0
+                )
+
+            [sent] => Array
+                (
+                    [total] => 0
+                    [queued] => 0
+                )
+
+        )
+
+    [sms] => Array
+        (
+            [received] => Array
+                (
+                    [total] => 269
+                    [queued] => 69
+                )
+
+            [sent] => Array
+                (
+                    [total] => 26790
+                    [queued] => 0
+                )
+
+            [storesize] => 74
+            [inbound] => 0.01,0.01,0.00
+            [outbound] => 0.51,0.44,0.31
+        )
+
+    [dlr] => Array
+        (
+            [received] => Array
+                (
+                    [total] => 1115146
+                )
+
+            [sent] => Array
+                (
+                    [total] => 0
+                )
+
+            [inbound] => 21.74,19.41,12.85
+            [outbound] => 0.00,0.00,0.00
+            [queued] => 13966
+            [storage] => spool
+        )
+
+    [boxes] => Array
+        (
+            [box] => Array
+                (
+                    [type] => smsbox
+                    [id] => mainSmsBox
+                    [IP] => 127.0.0.1
+                    [queue] => 0
+                    [status] => on-line 1d 0h 5m 55s
+                    [ssl] => no
+                )
+
+        )
+
+    [smscs] => Array
+        (
+            [count] => 2
+            [smsc] => Array
+                (
+                    [0] => Array
+                        (
+                            [name] => SMPP:10.1.1.1:33799/33799:ops:default
+                            [admin-id] => Content_SMPP
+                            [id] => Content_SMPP
+                            [status] => online 86759s
+                            [failed] => 0
+                            [queued] => 0
+                            [sms] => Array
+                                (
+                                    [received] => 269
+                                    [sent] => 1892
+                                    [inbound] => 0.01,0.01,0.00
+                                    [outbound] => 0.06,0.04,0.02
+                                )
+
+                            [dlr] => Array
+                                (
+                                    [received] => 3781
+                                    [sent] => 0
+                                    [inbound] => 0.12,0.07,0.04
+                                    [outbound] => 0.00,0.00,0.00
+                                )
+
+                        )
+
+                    [1] => Array
+                        (
+                            [name] => SMPP:10.10.10.10:15016/15016:ops:default
+                            [admin-id] => Charge_SMPP
+                            [id] => Op_Charge_SMPP
+                            [status] => online 86759s
+                            [failed] => 1061752
+                            [queued] => 0
+                            [sms] => Array
+                                (
+                                    [received] => 0
+                                    [sent] => 24898
+                                    [inbound] => 0.00,0.00,0.00
+                                    [outbound] => 0.45,0.40,0.29
+                                )
+
+                            [dlr] => Array
+                                (
+                                    [received] => 1111365
+                                    [sent] => 0
+                                    [inbound] => 21.64,19.44,12.81
+                                    [outbound] => 0.00,0.00,0.00
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+2020-08-14 14:58:56=>Debug=>initialize Start(localhost/Kannel,80,pass)=>
+2020-08-14 14:58:56=>Debug=>host=localhost/Kannel
+2020-08-14 14:58:56=>Debug=>host=localhost:80/Kannel
+2020-08-14 14:58:56=>Debug=>get_xml_contents Start(http://localhost:80/Kannel/status.xml?password=pass)=>
+2020-08-14 14:58:56=>Debug=>get_xml_contents End=> file_get_contents output
+2020-08-14 14:58:56=>Debug=>initialize End=>true
