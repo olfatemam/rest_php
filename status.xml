@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<gateway>
+<version>Kannel bearerbox version `1.4.4'.
+Compiler `7.2.0'.
+System Linux, release 4.4.0-17763-Microsoft, version #379-Microsoft Wed Mar 06 19:16:00 PST 2019, machine x86_64.
+Hostname EC2AMAZ-0A6RH1B.localdomain, IP 127.0.1.1.
+Libxml version 2.9.4.
+Using OpenSSL 1.0.2g  1 Mar 2016.
+Compiled with MySQL 5.7.20, using MySQL 5.7.28.
+Compiled with PostgreSQL 10.0.
+Using SQLite 3.20.1.
+Using hiredis API 0.13.3
+Using native malloc.
+</version>
+<status>running, uptime 1d 0h 6m 7s</status>
+	<wdp>
+		<received><total>0</total><queued>0</queued></received>
+		<sent><total>0</total><queued>0</queued></sent>
+	</wdp>
+	<sms>
+		<received><total>269</total><queued>69</queued></received>
+		<sent><total>26790</total><queued>0</queued></sent>
+		<storesize>74</storesize>
+		<inbound>0.01,0.01,0.00</inbound>
+		<outbound>0.51,0.44,0.31</outbound>
+		</sms>
+	<dlr>
+		<received><total>1115146</total></received>
+		<sent><total>0</total></sent>
+		<inbound>21.74,19.41,12.85</inbound>
+		<outbound>0.00,0.00,0.00</outbound>
+		<queued>13966</queued>
+		<storage>spool</storage>
+	</dlr>
+<boxes>
+	<box>
+		<type>smsbox</type>
+		<id>mainSmsBox</id>
+		<IP>127.0.0.1</IP>
+		<queue>0</queue>
+		<status>on-line 1d 0h 5m 55s</status>
+		<ssl>no</ssl>
+	</box></boxes>
+<smscs><count>2</count>
+	<smsc>
+		<name>SMPP:10.1.1.1:33799/33799:ops:default</name>
+		<admin-id>Content_SMPP</admin-id>
+		<id>Content_SMPP</id>
+		<status>online 86759s</status>
+		<failed>0</failed>
+		<queued>0</queued>
+		<sms>
+			<received>269</received>
+			<sent>1892</sent>
+			<inbound>0.01,0.01,0.00</inbound>
+			<outbound>0.06,0.04,0.02</outbound>
+		</sms>
+		<dlr>
+			<received>3781</received>
+			<sent>0</sent>
+			<inbound>0.12,0.07,0.04</inbound>
+			<outbound>0.00,0.00,0.00</outbound>
+		</dlr>
+	</smsc>
+<smsc>
+		<name>SMPP:10.10.10.10:15016/15016:ops:default</name>
+		<admin-id>Charge_SMPP</admin-id>
+		<id>Op_Charge_SMPP</id>
+		<status>online 86759s</status>
+		<failed>1061752</failed>
+		<queued>0</queued>
+		<sms>
+			<received>0</received>
+			<sent>24898</sent>
+			<inbound>0.00,0.00,0.00</inbound>
+			<outbound>0.45,0.40,0.29</outbound>
+		</sms>
+		<dlr>
+			<received>1111365</received>
+			<sent>0</sent>
+			<inbound>21.64,19.44,12.81</inbound>
+			<outbound>0.00,0.00,0.00</outbound>
+		</dlr>
+	</smsc>
+</smscs>
+</gateway>
