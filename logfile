@@ -470,3 +470,74 @@ Using native malloc.
 2020-08-14 14:58:56=>Debug=>get_xml_contents Start(http://localhost:80/Kannel/status.xml?password=pass)=>
 2020-08-14 14:58:56=>Debug=>get_xml_contents End=> file_get_contents output
 2020-08-14 14:58:56=>Debug=>initialize End=>true
+2020-08-14 15:01:22=>Debug=>initialize Start(,,)=>
+2020-08-14 15:01:22=>Debug=>host=
+2020-08-14 15:01:22=>Debug=>host=:
+2020-08-14 15:01:22=>Debug=>get_xml_contents Start(http://:/status.xml?password=)=>
+2020-08-14 15:01:22=>Debug=>
+2020-08-14 15:01:22=>Error=>Array
+(
+    [0] => status xml failed to read, returned error:
+)
+
+2020-08-14 15:01:22=>Debug=>get_xml_contents End=> false
+2020-08-14 15:01:22=>Debug=>initialize End=>false
+2020-08-14 15:01:22=>Debug=>initialize Start(,,)=>
+2020-08-14 15:01:22=>Debug=>host=
+2020-08-14 15:01:22=>Debug=>host=:
+2020-08-14 15:01:22=>Debug=>get_xml_contents Start(http://:/status.xml?password=)=>
+2020-08-14 15:01:22=>Debug=>
+2020-08-14 15:01:22=>Error=>Array
+(
+    [0] => status xml failed to read, returned error:
+)
+
+2020-08-14 15:01:22=>Debug=>get_xml_contents End=> false
+2020-08-14 15:01:22=>Debug=>initialize End=>false
+2020-08-14 15:01:28=>Debug=>initialize Start(,,)=>
+2020-08-14 15:01:28=>Debug=>host=
+2020-08-14 15:01:28=>Debug=>host=:
+2020-08-14 15:01:28=>Debug=>get_xml_contents Start(http://:/status.xml?password=)=>
+2020-08-14 15:01:28=>Debug=>
+2020-08-14 15:01:28=>Error=>Array
+(
+    [0] => status xml failed to read, returned error:
+)
+
+2020-08-14 15:01:28=>Debug=>get_xml_contents End=> false
+2020-08-14 15:01:28=>Debug=>initialize End=>false
+2020-08-14 15:01:29=>INFO=>all
+2020-08-14 15:01:29=>Debug=>initialize Start(,,)=>
+2020-08-14 15:01:29=>Debug=>host=
+2020-08-14 15:01:29=>Debug=>host=:
+2020-08-14 15:01:29=>Debug=>get_xml_contents Start(http://:/status.xml?password=)=>
+2020-08-14 15:01:29=>Debug=>
+2020-08-14 15:01:29=>Error=>Array
+(
+    [0] => status xml failed to read, returned error:
+)
+
+2020-08-14 15:01:29=>Debug=>get_xml_contents End=> false
+2020-08-14 15:01:29=>Debug=>initialize End=>false
+2020-08-14 15:01:29=>INFO=>Array
+(
+    [0] => status xml failed to read, returned error:
+)
+
+2020-08-14 15:01:46=>INFO=>all
+2020-08-14 15:01:46=>Debug=>initialize Start(,,)=>
+2020-08-14 15:01:46=>Debug=>host=
+2020-08-14 15:01:46=>Debug=>host=:
+2020-08-14 15:01:46=>Debug=>get_xml_contents Start(http://:/status.xml?password=)=>
+2020-08-14 15:01:46=>Debug=>
+2020-08-14 15:01:46=>Error=>Array
+(
+    [0] => status xml failed to read, returned error:
+)
+
+2020-08-14 15:01:46=>Debug=>get_xml_contents End=> false
+2020-08-14 15:01:46=>Debug=>initialize End=>false
+2020-08-14 15:01:46=>INFO=>Array
+(
+    [0] => status xml failed to read, returned error:
+)
