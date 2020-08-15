@@ -1,19 +1,13 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and ope
- * 
- * 
- * n the template in the editor.
- */
-
 /**
  * Description of Logger
  *
  * @author Olfat.Emam
  */
+
+namespace Logger;
+
 class Logger {
     
     private static $LoggingLevel=LOG_ERR|LOG_WARNING|LOG_INFO|LOG_DEBUG;
