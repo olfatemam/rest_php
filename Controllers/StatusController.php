@@ -1,11 +1,12 @@
 <?php
 
-require_once("../Logger/Logger.php");
+namespace Controllers;
 
-require_once("Controller.php");
-require_once("../Resources/Status.php");
+use Logger\Logger;
+use Resources\Status;
+
 		
-class StatusController extends RestController
+class StatusController extends Controller
 {
     
     public static function handle_api()
@@ -61,3 +62,7 @@ class StatusController extends RestController
         echo $response;
     }
 };
+
+
+//call 
+StatusController::handle_api();

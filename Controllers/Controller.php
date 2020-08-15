@@ -3,6 +3,8 @@
 A simple RESTful webservices base class
 Use this as a template and build upon it
 */
+namespace Controllers;
+
 class Controller {
 	
 	private $httpVersion = "HTTP/1.1";

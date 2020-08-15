@@ -47,6 +47,7 @@ The api will be hosted behind an apache server on a single cpu 1GB mikro-server 
 //$context  = stream_context_create( $options );
 //$result = file_get_contents( $url, false, $context );
 //$response = json_decode( $result );
+namespace Resources;
 
 class Exposed {
     

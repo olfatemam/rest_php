@@ -1,6 +1,7 @@
 <?php
+namespace Resources;
 
-require_once("Logger.php");
+use Logger\Logger;
 
 Class Status 
 {
