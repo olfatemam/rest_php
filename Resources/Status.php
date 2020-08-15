@@ -13,6 +13,23 @@ Class Status
     {
         $this->initialize($host, $port, $password);
     }
+ 
+    //Api's:
+    public function get_byname($name)
+    {
+        if (array_key_exists($name, $this->status_array)) 
+        {
+            return $this->status_array[$name];
+        }
+        $this->errors[]="Error: node '".name."' not found";
+        return ["data"=>'empty'];
+    }
+    public function get_all()
+    {
+        Logger::Debug("get_all Start");
+        
+        return $this->status_array;
+    }
     
     private function initialize($host, $port, $password)
     {
@@ -132,21 +149,5 @@ Class Status
 
     return $return;
     }
-    //this will return the first node found in the array with name as an index
-    public function get_byname($name)
-    {
-        if (array_key_exists($name, $this->status_array)) 
-        {
-            return $this->status_array[$name];
-        }
-        $this->errors[]="Error: node '".name."' not found";
-        return ["data"=>'empty'];
-    }
-    public function get_all()
-    {
-        Logger::Debug("get_all Start");
-        
-        return $this->status_array;
-    }
-}
+};
 ?>

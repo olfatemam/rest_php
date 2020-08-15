@@ -94,3 +94,5 @@ foreach ($cursor as $document) {
     echo $document["title"] . "\n";
 }
 
+//post url data to a web service
+
