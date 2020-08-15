@@ -1,5 +1,5 @@
 <?php
-namespace Resources;
+namespace Models;
 
 use Logger\Logger;
 

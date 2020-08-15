@@ -3,111 +3,98 @@
 namespace Controllers;
 
 use Logger\Logger;
-use Resources\Status;
+use Models\Converter;
 
-/*
-task create a converter api {
-The intended exposed api POST http://url.com/exposed/api is 
-serving for the incoming message flow. The api expects json format in the request body. The minimum expected required fields by the api are: from_msisdn (i.e 12345678910123), message (asci or utf-8 string), to_msisdn (i.e 12345678910123), encoding.
-Optionally the caller may also add extra fields where those fields are 
- * mentioned in a reserved key field_map, an object w
-here keys are the name of extra fields and values are string having one of (integer, string, boolean, float)
-The api upon receiving the request should parse and handle exceptions, if any. 
-If no exceptions then the api will call another rest api at 
-POST http:/transter.to/api/xml to transfer the incoming request in an XML format in a 
-<request></request> root enveloppe where the incoming json keys to be xml tags with field type attributes.
-
-All steps should be recorded in a nosql database,
- 
-for audit trail purposes, over the rest api with simple post http://db.com/query having the generic sql recognition in the body and the database respond 
- * with HTML response codes and the result in the body as json document.
-(i.e request: select from table where date<"2020-12-11" response [{"id"=>1,"name"=>"john"},{"id"=>2,"name":"marry"}]
-
- */		
 class ConverterController extends Controller
 {
-    private $url="http:/transter.to/api/xml";
+    private $url;
     
-    public function __construct()
+    public function __construct($url="http:/transter.to/api/xml")
     {
-    
-        
+        $this->url = $url;
     }
-
-    function post_xml($xml)
+    
+    public function convert_then_send_xml()
+    {
+        $input = json_decode($_POST[0], false, 512, JSON_BIGINT_AS_STRING);
+        if($input)
+        {
+            $converter = new Converter();
+        
+            if($converter->to_xml($input)==true)
+            {
+                $result = $this->post_to_xml_rest_api($converter->xml);
+                $statusCode=($result==true)?200:404;
+            }
+            else
+            {
+                $statusCode=404;
+                $result="Error: could not create xml data.";
+            }
+        }
+        else
+        {
+            $statusCode=404;
+            $result="Error: invalid input";
+        }
+        
+        $requestContentType = $_SERVER['HTTP_ACCEPT'];
+        $this->setHttpHeaders($requestContentType, $statusCode);
+        $response = $this->encodeJson($result);
+        Logger::Debug(print_r($rawData, true));
+        return $response;
+    }
+            
+    private function post_to_xml_rest_api($xml)
     {
         $headers = array(
             "Content-type: text/xml",
             "Content-length: " . strlen($xml),
             "Connection: close",
         );
-
-        $ch = curl_init(); 
-        curl_setopt($ch, CURLOPT_URL,$this->url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        $data = curl_exec($ch); 
-        
-        if(curl_errno($ch))
-            print curl_error($ch);
-        else
-            curl_close($ch);   
+        return $this->__post($this->url, $headers, $xml);
     }
+
+    private function __post($url, $headers, $data)
+    {
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_POST, 1);//Tell cURL that we want to send a POST request.
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);//Attach our encoded JSON string to the POST fields.
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);//Set the content type to application/json
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);//Execute the request
+
+        if($result==false)
+        {
+            if(curl_errno($ch))
+            {
+                $rawData = 'Error:' . curl_error($ch);
+                $statusCode = 404;
+                return false;
+            }
+        }
+        else
+        {
+            $rawData="Success";
+            $statusCode = 200;
+            curl_close($ch);
+            return true;
+        }
+        
+    }
+
     function post_json($arrayData)
     {
-        $ch = curl_init($this->url);
-        
         $jsonDataEncoded = json_encode($arrayData);
-
-        //Tell cURL that we want to send a POST request.
-        curl_setopt($ch, CURLOPT_POST, 1);
-
-        //Attach our encoded JSON string to the POST fields.
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
-
-        //Set the content type to application/json
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); 
-
-        //Execute the request
-        $result = curl_exec($ch);
-        
-        if(curl_errno($ch))
-            print curl_error($ch);
-        else
-            curl_close($ch);
-        
-        return $result;
+        $headers = array(
+            'Content-Type: application/json'
+        );
+        return $this->__post($this->url, $headers, $jsonDataEncoded);
     }
-
-    public static function convert()
-    {
-        $input = json_decode($_POST[0]);
-        if($input!=null)
-        {
-            $xml = '<?xml version="1.0" encoding="UTF-8"?>';
-            $xml .='<request>';
-
-            $xml .='<from_msisdn>'  .   $input["from_msisdn"]   .'</from_msisdn>';
-            $xml .='<message>'      .   $input["message"]       .   '</message>';
-            $xml .='<to_msisdn>'    .   $input["to_msisdn"]     .   '</to_msisdn>';
-            $xml .='<encoding>'     .   $input["encoding"]      .   '</encoding>';
-            if(isset($input["extra"]))
-            foreach($input["extra"] as $key=>$value)
-            {
-               $xml .='<' .$key . 'type='. gettype($value). '>'.$value.'</'.$key.'>';
-            }
-            $xml .='</request>';
-        
-            return $this->post_xml($xml);   
-        }
-        return null;
-    }
+    
 };
 
 
 //call 
-ConverterController::convert();
+(new ConverterController())->convert_then_send_xml();

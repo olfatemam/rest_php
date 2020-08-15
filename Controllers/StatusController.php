@@ -3,7 +3,7 @@
 namespace Controllers;
 
 use Logger\Logger;
-use Resources\Status;
+use Models\Status;
 
 		
 class StatusController extends Controller
@@ -50,15 +50,10 @@ class StatusController extends Controller
         {
             $statusCode = 200;
         }
-        
         $requestContentType = $_SERVER['HTTP_ACCEPT'];
-        
         $this->setHttpHeaders($requestContentType, $statusCode);
-        
         $response = $this->encodeJson($rawData);
-        
         Logger::Debug(print_r($rawData, true));
-        
         echo $response;
     }
 };
