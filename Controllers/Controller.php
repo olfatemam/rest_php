@@ -3,9 +3,14 @@
 A simple RESTful webservices base class
 Use this as a template and build upon it
 */
-class SimpleRest {
+class Controller {
 	
 	private $httpVersion = "HTTP/1.1";
+        
+        public function encodeJson($responseData) {
+            $jsonResponse = json_encode($responseData);
+            return $jsonResponse;		
+        }
 
 	public function setHttpHeaders($contentType, $statusCode)
         {
