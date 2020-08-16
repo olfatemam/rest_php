@@ -1,66 +1,62 @@
-<?php
+<?php declare(strict_types=1);
 
 require('vendor/autoload.php');
+require_once 'Logger/Logger.php';
 
-/**
- * Description of StatusTest
- *
- * @author Olfat.Emam
- */
-class StatusTest extends PHPUnit_Framework_TestCase
+use Logger\Logger;
+
+
+use Guzzle\Http\Client;
+
+
+use PHPUnit\Framework\TestCase;
+
+final class StatusTest extends TestCase
 {
-       protected $client;
+    protected $client;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->client = new GuzzleHttp\Client([
-            'base_uri' => 'localhost/rest_php'
-        ]);
+        $this->client = new Client('http://localhost/rest_php');
     }
 
     public function testGet_statuses()
     {
-        $response = $this->client->get('/status/all', [
-            'query' => [
-                'host' => 'localhost/rest_php',
-                'port' => 80,
-                'password' => "password",
-            ]
-        ]);
+        
+        $request = $this->client->get('statuses?host=localhost&port=80&password=password');
+        
+        $response = $request->send();
+        $data = $response->json();
+        //echo gettype($data);
+        //var_dump($data);
 
         $this->assertEquals(200, $response->getStatusCode());
-
-        $data = json_decode($response->getBody(), true);
-
-        $this->assertArrayHasKey('gateway', $data);
+        
+        
         $this->assertArrayHasKey('version', $data);
         $this->assertArrayHasKey('status', $data);
-        $this->assertArrayHasKey('author', $data);
+        
     }
     
+
+
     public function testGet_bynames()
     {
-        testGet_byname('gateway');
-        testGet_byname('version');
-        testGet_byname('status');
-        testGet_byname('boxes');
-        testGet_byname('box');
-        testGet_byname('smscs');
+        $this->Get_byname('version');
+        $this->Get_byname('status');
+        $this->Get_byname('boxes');
+        $this->Get_byname('smscs');
     }
 
-    public function testGet_byname($name)
+    private function Get_byname($name)
     {
-        $response = $this->client->get('/status/byname', [
-            'query' => [
-                'host' => 'localhost/rest_php',
-                'port' => 80,
-                'password' => "password",
-                'name'=>$name
-            ]
-        ]);
-
+        $request = $this->client->get('statuses?host=localhost&port=80&password=password&name='.$name);
+        
+        $response = $request->send();
+        $data = $response->json();
+        
         $this->assertEquals(200, $response->getStatusCode());
-        $data = json_decode($response->getBody(), true);
+        
         $this->assertArrayHasKey($name, $data);
     }
 }

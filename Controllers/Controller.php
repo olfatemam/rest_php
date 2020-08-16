@@ -18,7 +18,7 @@ class Controller {
         {
             $statusMessage = $this -> getHttpStatusMessage($statusCode);
             header($this->httpVersion. " ". $statusCode ." ". $statusMessage);		
-            header("Content-Type:". $contentType);
+            header("Content-Type: ". $contentType);
 	}
 	
 	public function getHttpStatusMessage($statusCode){

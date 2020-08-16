@@ -9,17 +9,13 @@
  */
 namespace SebastianBergmann\CodeCoverage\Report\Html;
 
-use const DIRECTORY_SEPARATOR;
-use function copy;
-use function date;
-use function dirname;
-use function substr;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Directory as DirectoryUtil;
 use SebastianBergmann\CodeCoverage\Node\Directory as DirectoryNode;
+use SebastianBergmann\CodeCoverage\RuntimeException;
 
 /**
- * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
+ * Generates an HTML report from a code coverage object.
  */
 final class Facade
 {
@@ -51,19 +47,24 @@ final class Facade
         $this->templatePath   = __DIR__ . '/Renderer/Template/';
     }
 
+    /**
+     * @throws RuntimeException
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function process(CodeCoverage $coverage, string $target): void
     {
-        $target = $this->directory($target);
+        $target = $this->getDirectory($target);
         $report = $coverage->getReport();
-        $date   = (string) date('D M j G:i:s T Y');
+
+        $date = (string) \date('D M j G:i:s T Y');
 
         $dashboard = new Dashboard(
             $this->templatePath,
             $this->generator,
             $date,
             $this->lowUpperBound,
-            $this->highLowerBound,
-            $coverage->collectsBranchAndPathCoverage()
+            $this->highLowerBound
         );
 
         $directory = new Directory(
@@ -71,8 +72,7 @@ final class Facade
             $this->generator,
             $date,
             $this->lowUpperBound,
-            $this->highLowerBound,
-            $coverage->collectsBranchAndPathCoverage()
+            $this->highLowerBound
         );
 
         $file = new File(
@@ -80,15 +80,14 @@ final class Facade
             $this->generator,
             $date,
             $this->lowUpperBound,
-            $this->highLowerBound,
-            $coverage->collectsBranchAndPathCoverage()
+            $this->highLowerBound
         );
 
         $directory->render($report, $target . 'index.html');
         $dashboard->render($report, $target . 'dashboard.html');
 
         foreach ($report as $node) {
-            $id = $node->id();
+            $id = $node->getId();
 
             if ($node instanceof DirectoryNode) {
                 DirectoryUtil::create($target . $id);
@@ -96,44 +95,50 @@ final class Facade
                 $directory->render($node, $target . $id . '/index.html');
                 $dashboard->render($node, $target . $id . '/dashboard.html');
             } else {
-                $dir = dirname($target . $id);
+                $dir = \dirname($target . $id);
 
                 DirectoryUtil::create($dir);
 
-                $file->render($node, $target . $id);
+                $file->render($node, $target . $id . '.html');
             }
         }
 
         $this->copyFiles($target);
     }
 
+    /**
+     * @throws RuntimeException
+     */
     private function copyFiles(string $target): void
     {
-        $dir = $this->directory($target . '_css');
+        $dir = $this->getDirectory($target . '_css');
 
-        copy($this->templatePath . 'css/bootstrap.min.css', $dir . 'bootstrap.min.css');
-        copy($this->templatePath . 'css/nv.d3.min.css', $dir . 'nv.d3.min.css');
-        copy($this->templatePath . 'css/style.css', $dir . 'style.css');
-        copy($this->templatePath . 'css/custom.css', $dir . 'custom.css');
-        copy($this->templatePath . 'css/octicons.css', $dir . 'octicons.css');
+        \copy($this->templatePath . 'css/bootstrap.min.css', $dir . 'bootstrap.min.css');
+        \copy($this->templatePath . 'css/nv.d3.min.css', $dir . 'nv.d3.min.css');
+        \copy($this->templatePath . 'css/style.css', $dir . 'style.css');
+        \copy($this->templatePath . 'css/custom.css', $dir . 'custom.css');
+        \copy($this->templatePath . 'css/octicons.css', $dir . 'octicons.css');
 
-        $dir = $this->directory($target . '_icons');
-        copy($this->templatePath . 'icons/file-code.svg', $dir . 'file-code.svg');
-        copy($this->templatePath . 'icons/file-directory.svg', $dir . 'file-directory.svg');
+        $dir = $this->getDirectory($target . '_icons');
+        \copy($this->templatePath . 'icons/file-code.svg', $dir . 'file-code.svg');
+        \copy($this->templatePath . 'icons/file-directory.svg', $dir . 'file-directory.svg');
 
-        $dir = $this->directory($target . '_js');
-        copy($this->templatePath . 'js/bootstrap.min.js', $dir . 'bootstrap.min.js');
-        copy($this->templatePath . 'js/popper.min.js', $dir . 'popper.min.js');
-        copy($this->templatePath . 'js/d3.min.js', $dir . 'd3.min.js');
-        copy($this->templatePath . 'js/jquery.min.js', $dir . 'jquery.min.js');
-        copy($this->templatePath . 'js/nv.d3.min.js', $dir . 'nv.d3.min.js');
-        copy($this->templatePath . 'js/file.js', $dir . 'file.js');
+        $dir = $this->getDirectory($target . '_js');
+        \copy($this->templatePath . 'js/bootstrap.min.js', $dir . 'bootstrap.min.js');
+        \copy($this->templatePath . 'js/popper.min.js', $dir . 'popper.min.js');
+        \copy($this->templatePath . 'js/d3.min.js', $dir . 'd3.min.js');
+        \copy($this->templatePath . 'js/jquery.min.js', $dir . 'jquery.min.js');
+        \copy($this->templatePath . 'js/nv.d3.min.js', $dir . 'nv.d3.min.js');
+        \copy($this->templatePath . 'js/file.js', $dir . 'file.js');
     }
 
-    private function directory(string $directory): string
+    /**
+     * @throws RuntimeException
+     */
+    private function getDirectory(string $directory): string
     {
-        if (substr($directory, -1, 1) != DIRECTORY_SEPARATOR) {
-            $directory .= DIRECTORY_SEPARATOR;
+        if (\substr($directory, -1, 1) != \DIRECTORY_SEPARATOR) {
+            $directory .= \DIRECTORY_SEPARATOR;
         }
 
         DirectoryUtil::create($directory);

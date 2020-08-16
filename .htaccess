@@ -4,6 +4,6 @@ RewriteEngine on
 
 # map neat URL to internal URL
 
-RewriteRule ^status/all              \Controllers\StatusController.php?view=all&host=$1&port=$2&password=$3 [nc,qsa]
-RewriteRule ^status/byname           \Controllers\StatusController.php?view=byname&host=$1&port=$2&password=$3&name=$4 [nc,qsa]
-RewriteRule ^converter/api             \Controllers\ConverterController.php [nc,qsa]
+RewriteRule ^statuses              StatusController.php?view=all&host=$1&port=$2&password=$3 [nc,qsa]
+RewriteRule ^status_byname         StatusController.php?view=byname&host=$1&port=$2&password=$3&name=$4 [nc,qsa]
+RewriteRule ^converter/api         ConverterController.php [nc,qsa]

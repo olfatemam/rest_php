@@ -26,8 +26,7 @@ Class Status
     }
     public function get_all()
     {
-        Logger::Debug("get_all Start");
-        
+        Logger::Debug("get_all function: return the status_array");
         return $this->status_array;
     }
     
