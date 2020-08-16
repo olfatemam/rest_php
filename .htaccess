@@ -7,3 +7,4 @@ RewriteEngine on
 RewriteRule ^statuses              StatusController.php?view=all&host=$1&port=$2&password=$3 [nc,qsa]
 RewriteRule ^status_byname         StatusController.php?view=byname&host=$1&port=$2&password=$3&name=$4 [nc,qsa]
 RewriteRule ^converter_api         ConverterController.php [nc,qsa]
+RewriteRule ^xml_api                XmlStoreController.php [nc,qsa]

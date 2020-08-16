@@ -42,8 +42,12 @@ final class ConverterTest extends TestCase
         $data = $response->json();
 
         $this->assertEquals(200, $response->getStatusCode());
+
+        Logger::Debug(print_r($data, true));
         
-        print_r($data, true);//$response->getBody();
+        var_dump($data);
+        
+        //$response->getBody();
     }
 }
 

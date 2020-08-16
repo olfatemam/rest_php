@@ -5,6 +5,9 @@ require_once 'Controllers\Controller.php';
 require_once 'Logger\Logger.php';
 require_once 'Models\Converter.php';
 
+
+
+ 
 use Controllers\Controller;
 use Logger\Logger;
 use Models\Converter;
@@ -13,9 +16,10 @@ class ConverterController extends Controller
 {
     private $url;
     
-    public function __construct($url="http:/localhost/xml")
+    public function __construct()
     {
-        $this->url = $url;
+        $config = include('Config/App.php');
+        $this->url = $config['xml_api_url'];
         Logger::Debug($this->url);
     }
     
@@ -43,17 +47,17 @@ class ConverterController extends Controller
                 else
                 {
                     Logger::Debug("could not create xml data");
-                    $results_arry=["result"=>'Error', "Error"=>"could not create xml data:".$result[1], "StatusCode"=>404];
+                    $results_arry=["Result"=>'Error', "Error"=>"could not create xml data:".$result[1], "StatusCode"=>404];
                 }
             }
             else
             {
-                $results_arry=["result"=>'Error', "Error"=>"Error: invalid input", "StatusCode"=>404];
+                $results_arry=["Result"=>'Error', "Error"=>"Error: invalid input", "StatusCode"=>404];
             }
         }
         catch(\Exception $e)
         {
-            $results_arry=["result"=>'Error', "Error"=>$e->getMessage(), "StatusCode"=>404];
+            $results_arry=["Result"=>'Error', "Error"=>$e->getMessage(), "StatusCode"=>404];
         }
         
         $this->setHttpHeaders("application/json", $results_arry["StatusCode"]);
@@ -72,7 +76,9 @@ class ConverterController extends Controller
             
     private function post_to_xml_rest_api($xml)
     {
+        
         Logger::Debug("post_to_xml_rest_api Start");
+        
         $headers = array(
             "Content-type: text/xml",
             "Content-length: " . strlen($xml),
@@ -85,30 +91,48 @@ class ConverterController extends Controller
 
     private function __post($url, $headers, $data)
     {
+        Logger::Info("posing url:".$url . ' start:');
+        
         $results_arry=array();
         
-        $ch = curl_init($url);
+        //Logger::Debug("url=".$url);
+        //Logger::Debug("data=".$data);
         
-        curl_setopt($ch, CURLOPT_POST, 1);//Tell cURL that we want to send a POST request.
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);//Attach our encoded JSON string to the POST fields.
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);//Set the content type to application/json
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $result = curl_exec($ch);//Execute the request
+        if($this->does_url_exist($url)==false)
+        {
+            return ["Result"=>'Error', $url. ' does not exist', "StatusCode"=>404];
+        }
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
+        $result=curl_exec($ch);
+        
+        Logger::Debug(print_r($result, true));
+        
         if($result==false)
         {
             if(curl_errno($ch))
             {
-                $results_arry=["result"=>'Error', "Error"=>curl_error($ch), "StatusCode"=>404];
+                $results_arry=["Result"=>'Error', "Error"=>curl_error($ch), "StatusCode"=>404];
             }
+            else
+                $results_arry=["Result"=>'Error', "Error"=>"unknown error", "StatusCode"=>404];
         }
         else
         {
-            $results_arry=["result"=>'Success', "Error"=>"", "StatusCode"=>200];
-            
-                curl_close($ch);
+            Logger::Info("curl_exec succeeded in sending xml to ".$url);
+            $results_arry=["Result"=>'Success', "Error"=>"", "StatusCode"=>200];
             
         }
+        curl_close($ch);
+        
+        Logger::Info("posing url end:");
+        
         return $results_arry;
     }
 

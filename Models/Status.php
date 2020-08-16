@@ -55,20 +55,19 @@ Class Status
             {
                 $host.=':'.$port;
             }
-            Logger::Debug('host='.$host);
-            
+                
             $query_uri  ="http://". $host .'/status.xml?password='.$password;
-            
+
             $xml_content = $this->get_xml_contents($query_uri);
             
             if ($xml_content !== false)
             {
                 $xml_obj = simplexml_load_string($xml_content);
-        
+
                 if($xml_obj ===false)
                 {
                     $xml = explode("\n", $xml_content);
-                    
+
                     $this->errors[] = $this->xml_errors_tostring($xml);
                     Logger::Error(print_r($this->errors, true));
                 }
@@ -76,8 +75,6 @@ Class Status
                 {
                     $json = json_encode($xml_obj);
                     $this->status_array = json_decode($json, TRUE);
-                    //Logger::Debug("status_array=");
-                    //Logger::Debug(print_r($this->status_array, true));
                 }
                 Logger::Debug("initialize End=>true");
                 return true;
@@ -88,6 +85,7 @@ Class Status
             $this->errors[]=$e->getMessage();
         }
         Logger::Debug("initialize End=>false");
+        
         return false;
     }
     

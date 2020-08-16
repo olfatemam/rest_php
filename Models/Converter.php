@@ -17,6 +17,14 @@ Class Converter
         Logger::Info("Converter constructor");
     }
     
+    public function store_xml($xml)
+    {
+        $filename = "xml\_file" . date('m-d-Y_hia').".xml";
+        Logger::Info("store xml to file");
+        file_put_contents($filename, $xml);
+        return ["Result"=>'Success', "Error"=>"", "StatusCode"=>200, 'File'=>$filename];
+    }
+    
     public function to_xml($input)
     {
         Logger::Info("Converter to xml");

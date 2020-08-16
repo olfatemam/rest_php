@@ -1,0 +1,1 @@
+"1.0" encoding="UTF-8"?><request><from_msisdn>12345678910123</from_msisdn><message>(some asci or utf-8 string)</message><to_msisdn>12345678910123</to_msisdn><encoding>utf-8</encoding><bool_field type="boolean">1</bool_field><string_field type="string">test_string</string_field><double_field type="double">11.02</double_field><int_field type="int">7</int_field></request>
