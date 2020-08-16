@@ -1,6 +1,8 @@
 <?php
 namespace Models;
 
+require_once 'Logger\Logger.php';
+
 use Logger\Logger;
 
 Class Status 

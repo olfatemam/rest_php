@@ -1,7 +1,11 @@
 <?php
 
-namespace Controllers;
 
+require_once 'Controllers\Controller.php';
+require_once 'Logger\Logger.php';
+require_once 'Models\Converter.php';
+
+use Controllers\Controller;
 use Logger\Logger;
 use Models\Converter;
 
@@ -9,54 +13,80 @@ class ConverterController extends Controller
 {
     private $url;
     
-    public function __construct($url="http:/transter.to/api/xml")
+    public function __construct($url="http:/localhost/xml")
     {
         $this->url = $url;
+        Logger::Debug($this->url);
     }
     
     public function convert_then_send_xml()
     {
-        $input = json_decode($_POST[0], false, 512, JSON_BIGINT_AS_STRING);
-        if($input)
+        try
         {
-            $converter = new Converter();
-        
-            if($converter->to_xml($input)==true)
+            Logger::Debug("convert_then_send_xml Begin");
+
+            $results_arry=array("StatusCode"=>200);
+
+            if(count($_POST)>0)
             {
-                $result = $this->post_to_xml_rest_api($converter->xml);
-                $statusCode=($result==true)?200:404;
+                Logger::Debug("calling converter");
+
+                $converter = new Converter();
+
+                $result = $converter->to_xml($_POST);
+
+                if($result[0]==true)
+                {
+                    Logger::Debug("xml data created");
+                    $results_arry = $this->post_to_xml_rest_api($converter->xml);
+                }
+                else
+                {
+                    Logger::Debug("could not create xml data");
+                    $results_arry=["result"=>'Error', "Error"=>"could not create xml data:".$result[1], "StatusCode"=>404];
+                }
             }
             else
             {
-                $statusCode=404;
-                $result="Error: could not create xml data.";
+                $results_arry=["result"=>'Error', "Error"=>"Error: invalid input", "StatusCode"=>404];
             }
         }
-        else
+        catch(\Exception $e)
         {
-            $statusCode=404;
-            $result="Error: invalid input";
+            $results_arry=["result"=>'Error', "Error"=>$e->getMessage(), "StatusCode"=>404];
         }
         
-        $requestContentType = $_SERVER['HTTP_ACCEPT'];
-        $this->setHttpHeaders($requestContentType, $statusCode);
-        $response = $this->encodeJson($result);
-        Logger::Debug(print_r($rawData, true));
+        $this->setHttpHeaders("application/json", $results_arry["StatusCode"]);
+       
+        $response = $this->encodeJson($results_arry);
+        
+        
+        Logger::Debug("response=");
+        
+        Logger::Debug($response);
+        
+        Logger::Debug("convert_then_send_xml End");
+        
         return $response;
     }
             
     private function post_to_xml_rest_api($xml)
     {
+        Logger::Debug("post_to_xml_rest_api Start");
         $headers = array(
             "Content-type: text/xml",
             "Content-length: " . strlen($xml),
             "Connection: close",
         );
+        
+        Logger::Debug('post_to_xml_rest_api calling this->__post('. $this->url. ', ' , $xml . ')');
         return $this->__post($this->url, $headers, $xml);
     }
 
     private function __post($url, $headers, $data)
     {
+        $results_arry=array();
+        
         $ch = curl_init($url);
         
         curl_setopt($ch, CURLOPT_POST, 1);//Tell cURL that we want to send a POST request.
@@ -69,19 +99,17 @@ class ConverterController extends Controller
         {
             if(curl_errno($ch))
             {
-                $rawData = 'Error:' . curl_error($ch);
-                $statusCode = 404;
-                return false;
+                $results_arry=["result"=>'Error', "Error"=>curl_error($ch), "StatusCode"=>404];
             }
         }
         else
         {
-            $rawData="Success";
-            $statusCode = 200;
-            curl_close($ch);
-            return true;
+            $results_arry=["result"=>'Success', "Error"=>"", "StatusCode"=>200];
+            
+                curl_close($ch);
+            
         }
-        
+        return $results_arry;
     }
 
     function post_json($arrayData)
@@ -97,4 +125,5 @@ class ConverterController extends Controller
 
 
 //call 
-(new ConverterController())->convert_then_send_xml();
+
+echo (new ConverterController())->convert_then_send_xml();

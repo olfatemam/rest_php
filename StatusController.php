@@ -55,22 +55,18 @@ class StatusController extends Controller
             $statusCode = 200;
         }
         
-        //$requestContentType = isset($_SERVER['HTTP_ACCEPT'])?$_SERVER['HTTP_ACCEPT']:"";
-        //$requestContentType = $_SERVER['HTTP_ACCEPT'];
-        
         $this->setHttpHeaders("application/json", $statusCode);
         
         $response = $this->encodeJson($rawData);
         
         //Logger::Debug("statuscode=".$statusCode);
-        
         //Logger::Debug(gettype($response));
         //Logger::Debug(print_r($response, true));
         
-        echo $response;
+        return $response;
     }
 };
 
 
 //call 
-(new StatusController())->handle_api();
+echo (new StatusController())->handle_api();
